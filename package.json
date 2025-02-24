@@ -3,11 +3,21 @@
   "version": "1.0.0",
   "description": "Typescript library for the peekaboo project",
   "license": "ISC",
+  "keywords": ["piracy", "movies", "anime", "peekaboo", "tv", "meta"],
   "author": "WinterSunset95",
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"build": "npx tsc",
+	"dev": "npx tsc --watch",
+  },
+  "files": [
+	  "dist/"
+  ],
+  "repository": {
+	  "type": "git",
+	  "url": "https://github.com/WinterSunset95/peek-a-boo.ts"
   },
   "devDependencies": {
     "@types/node": "^22.13.5",
