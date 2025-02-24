@@ -10,14 +10,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
 	"build": "npx tsc",
-	"dev": "npx tsc --watch",
+	"dev": "npx tsc --watch"
   },
   "files": [
 	  "dist/"
   ],
   "repository": {
 	  "type": "git",
-	  "url": "https://github.com/WinterSunset95/peek-a-boo.ts"
+	  "url": "git+https://github.com/WinterSunset95/peek-a-boo.ts"
   },
   "devDependencies": {
     "@types/node": "^22.13.5",

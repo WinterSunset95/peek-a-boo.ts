@@ -91,7 +91,7 @@ export class TMDB {
 			boo: []
 		}
 
-		console.log(this.movieSearch, query)
+		console.log(this.movieSearch + query)
 		const response = await fetch(`${this.movieSearch}${query}`)
 		const data = await response.json();
 		const array: MovieSearchResult[] = [];
@@ -120,7 +120,7 @@ export class TMDB {
 			boo: []
 		}
 
-		console.log(this.movieSearch, query)
+		console.log(this.tvSearch + query)
 		const response = await fetch(`${this.tvSearch}${query}`)
 		const data = await response.json();
 		const array: MovieSearchResult[] = [];
@@ -136,6 +136,8 @@ export class TMDB {
 			}
 			array.push(arrItem)
 		})
+
+		console.log(array)
 
 		return {
 			peek: true,
