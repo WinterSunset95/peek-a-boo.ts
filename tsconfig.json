@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"outDir": "dist",
+		"rootDir": "src",
+		"declaration" : true,
+		"moduleResolution": "Node",
+		"esModuleInterop": true,
+		"allowImportingTsExtensions": true,
+		"emitDeclarationOnly": true,
+		"target": "ESNext",
+		"module": "ESNext"
+	},
+	"include": ["src"]
+}
