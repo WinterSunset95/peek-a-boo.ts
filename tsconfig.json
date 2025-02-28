@@ -1,14 +1,17 @@
 {
-	"compilerOptions": {
-		"outDir": "dist",
-		"rootDir": "src",
-		"declaration" : true,
-		"moduleResolution": "bundler",
-		"esModuleInterop": true,
-		"target": "ESNext",
-		"module": "ESNext",
-		"strict": true,
-	},
-	"lib": ["esnext"],
-	"include": ["src"]
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "commonjs",
+    "rootDir": "src",
+    "moduleResolution": "node",
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "lib": ["esnext"],
+  "include": ["src"]
 }

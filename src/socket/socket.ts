@@ -1,5 +1,5 @@
 import { DefaultEventsMap, Server } from "socket.io";
-import { OpenRoom, ChatMessage, PeekABoo, RoomMessage, RoomRequest, User } from "../src/types"
+import { OpenRoom, ChatMessage, PeekABoo, RoomMessage, RoomRequest, User } from "../types"
 
 export const io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> = new Server({
     cors: {

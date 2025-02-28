@@ -9,8 +9,7 @@ import {
 	TmdbMovie,
 	TmdbSearchResult,
 	MovieInfo,
-	TvSeason,
-	MediaInfo,
+	TvSeason, MediaInfo,
 	User,
 	RoomCreate,
 	OpenRoom,
@@ -21,12 +20,9 @@ import {
 } from "./types"
 
 import {
-	vidsrcScrape
-} from "./vidsrc"
-
-import {
+	vidsrcScrape,
 	decrypt
-} from "./decrypt"
+} from "./scraper"
 
 import {
 	animeSearchResult_to_MovieSearchResult,

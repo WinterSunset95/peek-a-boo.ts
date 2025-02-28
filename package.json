@@ -12,13 +12,13 @@
     "meta"
   ],
   "author": "WinterSunset95",
-  "type": "module",
+  "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc -p tsconfig.json",
-    "dev": "npx tsc --watch"
+    "dev": "npx tsc -p tsconfig.json --watch"
   },
   "files": [
     "dist/",

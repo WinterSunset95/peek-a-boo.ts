@@ -1,6 +1,6 @@
 import { MediaInfo, MovieInfo, MovieSearchResult, PeekABoo, TmdbMovie, TmdbMovieInfo, TmdbSearchResult, TmdbTv, TmdbTvInfo, TvSeason } from "../types";
 import { tmdbMovie_to_MovieSearchResult, tmdbMovieInfo_to_MediaInfo, tmdbTv_to_MovieSearchResult, tmdbTvInfo_to_MediaInfo } from "../utilities/typeconverter";
-import { vidsrcScrape }  from "../vidsrc"
+import { vidsrcScrape }  from "../scraper"
 import { ISource, IVideo, IEpisodeServer } from "@consumet/extensions"
 
 export class TMDB {
