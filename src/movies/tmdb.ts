@@ -1,5 +1,5 @@
-import { MediaInfo, MovieInfo, MovieSearchResult, PeekABoo, TvInfo, TvSeason } from "../types.ts";
-import { defaultAnimeInfo, defaultTvInfo } from "../utilities/typeconverter.ts";
+import { MediaInfo, MovieInfo, MovieSearchResult, PeekABoo, TmdbMovie, TmdbMovieInfo, TmdbSearchResult, TmdbTv, TmdbTvInfo, TvSeason } from "../types.ts";
+import { tmdbMovie_to_MovieSearchResult, tmdbMovieInfo_to_MediaInfo, tmdbTv_to_MovieSearchResult, tmdbTvInfo_to_MediaInfo } from "../utilities/typeconverter.ts";
 import { vidsrcScrape }  from "../vidsrc.ts"
 import { ISource, IVideo, IEpisodeServer } from "@consumet/extensions"
 
@@ -14,6 +14,8 @@ export class TMDB {
 	tvPopular: string;
 	tvSearch: string;
 	tvInfo: (id: string) => string;
+	tvSimilar: (id: string) => string;
+	movieSimilar: (id: string) => string;
 
 	constructor(key: string, proxy: string) {
 		this.tmdbApiKey = key;
@@ -26,8 +28,9 @@ export class TMDB {
 		this.tvPopular = `${this.appProxy}https://api.themoviedb.org/3/tv/popular?api_key=${this.tmdbApiKey}`
 		this.tvSearch = `${this.appProxy}https://api.themoviedb.org/3/search/tv?api_key=${this.tmdbApiKey}&query=`
 		this.tvInfo = (id: string): string => `${this.appProxy}https://api.themoviedb.org/3/tv/${id}?api_key=${this.tmdbApiKey}`;
+		this.tvSimilar = (id: string): string => `${this.appProxy}https://api.themoviedb.org/3/tv/${id}/similar?api_key=${this.tmdbApiKey}`
+		this.movieSimilar = (id: string): string => `${this.appProxy}https://api.themoviedb.org/3/movie/${id}/similar?api_key=${this.tmdbApiKey}`
 	}
-
 
 	async getTrendingMovies(): Promise<PeekABoo<MovieSearchResult[]>> {
 		const defaultResult: PeekABoo<MovieSearchResult[]> = {
@@ -147,7 +150,13 @@ export class TMDB {
 
 	async getMovieInfo(id: string): Promise<PeekABoo<MediaInfo | string>> {
 		const response = await fetch(`${this.movieInfo(id)}`)
-		const data = await response.json();
+		if (response.status == 400) {
+			return {
+				peek: false,
+				boo: `Failed to get Movie Info ${id}`
+			}
+		}
+		const data = await response.json() as TmdbMovieInfo;
 		if (data == undefined) {
 			return {
 				peek: false,
@@ -157,63 +166,73 @@ export class TMDB {
 
 		return {
 			peek: true,
-			boo: {
-				Id: data.id,
-				Title: data.original_title,
-				Poster: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
-				Type: "movie",
-				Overview: data.overview,
-				Year: data.release_date,
-				Duration: data.runtime,
-				Genres: [],
-				Languages: []
-			}
+			boo: tmdbMovieInfo_to_MediaInfo(data)
 		}
 	}
 
 	async getTvInfo(id: string): Promise<PeekABoo<MediaInfo | string>> {
+		console.log(`getTvInfo: ${this.tvInfo(id)}`)
 		const response = await fetch(`${this.tvInfo(id)}`)
-		const data = await response.json();
+		if (response.status == 400) {
+			return {
+				peek: false,
+				boo: `Failed to get Show ${id}`
+			}
+		}
+		const data = await response.json() as TmdbTvInfo;
 		if (data == undefined) {
 			return {
 				peek: false,
 				boo: `Failed to get Show ${id}`
 			}
 		}
-
-		const seasons: TvSeason[] = []
-		const seasonsList = data.seasons
-		if (!seasonsList) return {
-			peek: false,
-			boo: `No seasons available for ${id}`
+		return {
+			peek: true,
+			boo: tmdbTvInfo_to_MediaInfo(data)
 		}
-		seasonsList.forEach((item: any) => {
-			const season: TvSeason = {
-				Id: item.id,
-				AirDate: item.air_date,
-				EpisodeCount: item.episode_count,
-				Name: item.name,
-				Overview: item.overview,
-				Poster: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-				SeasonNumber: item.season_number
+	}
+
+	async getSimilarTvShows(id: string): Promise<PeekABoo<MovieSearchResult[]>> {
+		const res = await fetch(this.tvSimilar(id), {
+			method: "GET",
+			headers: {
+				accept: "application/json",
+				Authorization: `Bearer ${this.tmdbApiKey}`
 			}
-			seasons.push(season)
 		})
+		if (res.status == 400) {
+			return {
+				peek: false,
+				boo: []
+			}
+		}
+		const data = await res.json() as TmdbSearchResult<TmdbTv>
 
 		return {
 			peek: true,
-			boo: {
-				Id: data.id,
-				Title: data.original_name,
-				Poster: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
-				Type: "tv",
-				Overview: data.overview,
-				Year: data.release_date,
-				Duration: data.runtime,
-				Genres: [],
-				Languages: [],
-				TvShowSeason: seasons
+			boo: tmdbTv_to_MovieSearchResult(data),
+		}
+	}
+
+	async getSimilarMovies(id: string): Promise<PeekABoo<MovieSearchResult[]>> {
+		const res = await fetch(this.movieSimilar(id), {
+			method: "GET",
+			headers: {
+				accept: "application/json",
+				Authorization: `Bearer ${this.tmdbApiKey}`
 			}
+		})
+		if (res.status == 400) {
+			return {
+				peek: false,
+				boo: []
+			}
+		}
+		const data = await res.json() as TmdbSearchResult<TmdbMovie>
+
+		return {
+			peek: true,
+			boo: tmdbMovie_to_MovieSearchResult(data),
 		}
 	}
 
