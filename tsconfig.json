@@ -5,13 +5,10 @@
 		"declaration" : true,
 		"moduleResolution": "Node",
 		"esModuleInterop": true,
-		"allowImportingTsExtensions": false,
-		"emitDeclarationOnly": false,
-		"target": "ESNext",
-		"module": "ESNext",
-		"paths": {
-			"$src/*": ["./src/*"]
-		}
+		"target": "ES2018",
+		"module": "commonjs",
+		"strict": true,
 	},
+	"lib": ["esnext"],
 	"include": ["src"]
 }
