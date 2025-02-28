@@ -18,7 +18,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc -p tsconfig.json",
-    "dev": "npx tsc -p tsconfig.json --watch"
+    "dev": "npx tsc -p tsconfig.json --watch",
+	"docs": "typedoc"
   },
   "files": [
     "dist/",
@@ -35,6 +36,7 @@
   "dependencies": {
     "@consumet/extensions": "^1.8.1",
     "cheerio": "^1.0.0",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "typedoc-plugin-markdown": "^4.4.2"
   }
 }
