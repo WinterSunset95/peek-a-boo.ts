@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio"
-import { decrypt } from "../src/decrypt.ts";
+import { decrypt } from "../src/decrypt";
 
 let BASEURL = "https://example.com";
 

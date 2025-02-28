@@ -5,10 +5,13 @@
 		"declaration" : true,
 		"moduleResolution": "Node",
 		"esModuleInterop": true,
-		"allowImportingTsExtensions": true,
-		"emitDeclarationOnly": true,
+		"allowImportingTsExtensions": false,
+		"emitDeclarationOnly": false,
 		"target": "ESNext",
-		"module": "ESNext"
+		"module": "ESNext",
+		"paths": {
+			"$src/*": ["./src/*"]
+		}
 	},
 	"include": ["src"]
 }
