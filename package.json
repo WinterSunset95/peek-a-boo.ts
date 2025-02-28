@@ -1,6 +1,6 @@
 {
   "name": "peek-a-boo.ts",
-  "version": "1.0.10",
+  "version": "2.0.0",
   "description": "Typescript library for the peekaboo project",
   "license": "ISC",
   "keywords": [
@@ -19,7 +19,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc -p tsconfig.json",
     "dev": "npx tsc -p tsconfig.json --watch",
-	"docs": "typedoc"
+    "docs": "typedoc"
   },
   "files": [
     "dist/",
