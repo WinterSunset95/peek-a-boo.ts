@@ -1,6 +1,6 @@
 import { ANIME, IAnimeInfo, IAnimeResult, IEpisodeServer, ISearch, ISource } from "@consumet/extensions";
-import { AnimeInfo, MovieSearchResult, PeekABoo } from "../types.ts";
-import { animeSearchResult_to_MovieSearchResult, defaultAnimeInfo, iAnimeInfo_to_AnimeInfo } from "../utilities/typeconverter.ts";
+import { MediaInfo, MovieSearchResult, PeekABoo } from "../types.ts";
+import { animeSearchResult_to_MovieSearchResult, iAnimeInfo_to_MediaInfo } from "../utilities/typeconverter.ts";
 
 const anime = new ANIME.AnimePahe()
 
@@ -37,10 +37,10 @@ export class AnimePahe {
 		}
 	}
 
-	async getAnimeInfo(id: string): Promise<PeekABoo<AnimeInfo>> {
-		const defaultResult: PeekABoo<AnimeInfo> = {
+	async getAnimeInfo(id: string): Promise<PeekABoo<MediaInfo | string>> {
+		const defaultResult: PeekABoo<MediaInfo | string> = {
 			peek: false,
-			boo: defaultAnimeInfo
+			boo: "Failed to get anime"
 		}
 
 		const result: IAnimeInfo = await anime.fetchAnimeInfo(id)
@@ -49,7 +49,7 @@ export class AnimePahe {
 
 		return {
 			peek: true,
-			boo: iAnimeInfo_to_AnimeInfo(result)
+			boo: iAnimeInfo_to_MediaInfo(result)
 		}
 	}
 
@@ -69,10 +69,10 @@ export class AnimePahe {
 		}
 	}
 
-	async getTopAiring(): Promise<PeekABoo<AnimeInfo>> {
-		const defaultResult: PeekABoo<AnimeInfo> = {
+	async getTopAiring(): Promise<PeekABoo<MediaInfo | string>> {
+		const defaultResult: PeekABoo<MediaInfo | string> = {
 			peek: false,
-			boo: defaultAnimeInfo
+			boo: "Failed to get Top airing"
 		}
 
 		const result = await anime.search("")
@@ -84,7 +84,7 @@ export class AnimePahe {
 
 		return {
 			peek: true,
-			boo: iAnimeInfo_to_AnimeInfo(topInfo)
+			boo: iAnimeInfo_to_MediaInfo(topInfo)
 		}
 	}
 
