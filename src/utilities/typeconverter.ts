@@ -1,5 +1,5 @@
 import { IAnimeInfo, IAnimeResult, ISearch } from "@consumet/extensions";
-import { MediaInfo, MovieSearchResult, TmdbMovie, TmdbMovieInfo, TmdbSearchResult, TmdbTv, TmdbTvInfo, TvSeason } from "../types.ts";
+import { MediaInfo, MovieSearchResult, TmdbMovie, TmdbMovieInfo, TmdbSearchResult, TmdbTv, TmdbTvInfo, TvSeason } from "../types";
 
 ////////////////////////////////////////////////////////////
 // Convert ISearch<IAnimeResult> into MovieSearchResult[] //

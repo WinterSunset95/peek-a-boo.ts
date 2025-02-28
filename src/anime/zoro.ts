@@ -1,6 +1,6 @@
 import { ANIME, IAnimeInfo, IEpisodeServer, ISource } from "@consumet/extensions";
-import { MediaInfo, MovieSearchResult, PeekABoo } from "../types.ts";
-import { animeSearchResult_to_MovieSearchResult, iAnimeInfo_to_MediaInfo } from "../utilities/typeconverter.ts";
+import { MediaInfo, MovieSearchResult, PeekABoo } from "../types";
+import { animeSearchResult_to_MovieSearchResult, iAnimeInfo_to_MediaInfo } from "../utilities/typeconverter";
 
 const anime = new ANIME.Zoro();
 

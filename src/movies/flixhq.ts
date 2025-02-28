@@ -1,5 +1,5 @@
 import { MOVIES } from "@consumet/extensions";
-import { MovieSearchResult, PeekABoo } from "../types.ts";
+import { MovieSearchResult, PeekABoo } from "../types";
 import { ITitle } from "@consumet/extensions";
 
 const movie = new MOVIES.FlixHQ()

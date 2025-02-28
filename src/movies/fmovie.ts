@@ -1,5 +1,5 @@
 import { MOVIES } from "@consumet/extensions"
-import { MovieSearchResult, PeekABoo } from "../types.ts";
+import { MovieSearchResult, PeekABoo } from "../types";
 
 const movie = new MOVIES.Fmovies()
 
