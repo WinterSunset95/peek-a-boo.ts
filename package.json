@@ -21,7 +21,8 @@
     "dev": "npx tsc --watch"
   },
   "files": [
-    "dist/"
+    "dist/",
+	"src/",
   ],
   "repository": {
     "type": "git",
