@@ -1,5 +1,5 @@
 import { MediaInfo, MovieInfo, MovieSearchResult, PeekABoo, TmdbMovie, TmdbMovieInfo, TmdbSearchResult, TmdbTv, TmdbTvInfo, TvSeason } from "../types";
-import { tmdbMovie_to_MovieSearchResult, tmdbMovieInfo_to_MediaInfo, tmdbTv_to_MovieSearchResult, tmdbTvInfo_to_MediaInfo } from "../utilities/typeconverter";
+import { tmdbMovie_to_MovieInfo, tmdbMovie_to_MovieSearchResult, tmdbMovieInfo_to_MediaInfo, tmdbTv_to_MovieInfo, tmdbTv_to_MovieSearchResult, tmdbTvInfo_to_MediaInfo } from "../utilities/typeconverter";
 import { vidsrcScrape }  from "../scraper"
 import { ISource, IVideo, IEpisodeServer } from "@consumet/extensions"
 
@@ -32,88 +32,57 @@ export class TMDB {
 		this.movieSimilar = (id: string): string => `${this.appProxy}https://api.themoviedb.org/3/movie/${id}/similar?api_key=${this.tmdbApiKey}`
 	}
 
-	async getTrendingMovies(): Promise<PeekABoo<MovieSearchResult[]>> {
-		const defaultResult: PeekABoo<MovieSearchResult[]> = {
+	async getTrendingMovies(): Promise<PeekABoo<MovieInfo[]>> {
+		const defaultResult: PeekABoo<MovieInfo[]> = {
 			peek: false,
 			boo: []
 		}
 
 		const response = await fetch(this.movieTrending);
-		const data = await response.json();
-		const array: MovieSearchResult[] = []
+		const data = await response.json() as TmdbSearchResult<TmdbMovie>;
+		const array: MovieInfo[] = []
 
 		if (data == undefined) return defaultResult;
 
-		data.results.forEach((item: any) => {
-			const arrItem: MovieSearchResult = {
-				Id: item.id,
-				Title: item.original_title as string,
-				Poster: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-				Type: "movie"
-			}
-			array.push(arrItem)
-		})
-
-		return {
-			peek: true,
-			boo: array
-		}
+    const toReturn = tmdbMovie_to_MovieInfo(data);
+    return {
+      peek: true,
+      boo: toReturn
+    };
 	}
 
-	async getTrendingTv(): Promise<PeekABoo<MovieSearchResult[]>> {
-		const defaultResult: PeekABoo<MovieSearchResult[]> = {
+	async getTrendingTv(): Promise<PeekABoo<MovieInfo[]>> {
+		const defaultResult: PeekABoo<MovieInfo[]> = {
 			peek: false,
 			boo: []
 		}
 
 		const response = await fetch(this.tvTrending);
-		const data = await response.json();
-		const array: MovieSearchResult[] = []
+		const data = await response.json() as TmdbSearchResult<TmdbTv>;
 
 		if (data == undefined) return defaultResult;
 
-		data.results.forEach((item: any) => {
-			const arrItem: MovieSearchResult = {
-				Id: item.id,
-				Title: item.original_name as string,
-				Poster: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-				Type: "tv"
-			}
-			array.push(arrItem)
-		})
-
 		return {
 			peek: true,
-			boo: array
+			boo: tmdbTv_to_MovieInfo(data)
 		}
 	}
 
-	async searchMovie(query: string): Promise<PeekABoo<MovieSearchResult[]>> {
-		const defaultResult: PeekABoo<MovieSearchResult[]> = {
+	async searchMovie(query: string): Promise<PeekABoo<MovieInfo[]>> {
+		const defaultResult: PeekABoo<MovieInfo[]> = {
 			peek: false,
 			boo: []
 		}
 
 		console.log(this.movieSearch + query)
 		const response = await fetch(`${this.movieSearch}${query}`)
-		const data = await response.json();
-		const array: MovieSearchResult[] = [];
+		const data = await response.json() as TmdbSearchResult<TmdbMovie>;
 
 		if (data == undefined) return defaultResult;
 
-		data.results.forEach((item: any) => {
-			const arrItem: MovieSearchResult = {
-				Id: item.id,
-				Title: item.original_title,
-				Poster: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-				Type: "movie"
-			}
-			array.push(arrItem)
-		})
-
 		return {
 			peek: true,
-			boo: array
+			boo: tmdbMovie_to_MovieInfo(data)
 		};
 	}
 

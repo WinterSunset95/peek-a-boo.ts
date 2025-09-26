@@ -1,5 +1,5 @@
 import { IAnimeInfo, IAnimeResult, ISearch } from "@consumet/extensions";
-import { MediaInfo, MovieSearchResult, TmdbMovie, TmdbMovieInfo, TmdbSearchResult, TmdbTv, TmdbTvInfo, TvSeason } from "../types";
+import { MediaInfo, MovieInfo, MovieSearchResult, TmdbMovie, TmdbMovieInfo, TmdbSearchResult, TmdbTv, TmdbTvInfo, TvSeason } from "../types";
 
 ////////////////////////////////////////////////////////////
 // Convert ISearch<IAnimeResult> into MovieSearchResult[] //
@@ -46,6 +46,42 @@ export const tmdbMovie_to_MovieSearchResult = (input: TmdbSearchResult<TmdbMovie
 	})
 
 	return list
+}
+
+export const tmdbMovie_to_MovieInfo = (input: TmdbSearchResult<TmdbMovie>): MovieInfo[] => {
+  const list: MovieInfo[] = [];
+  input.results.forEach((item: TmdbMovie) => {
+    list.push({
+      Id: item.id.toString(),
+      Title: item.original_title,
+      Poster: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+      Type: "movie",
+      Overview: item.overview,
+      Year: item.release_date,
+      Duration: "",
+      Genres: [],
+      Languages: [],
+    })
+  })
+  return list;
+}
+
+export const tmdbTv_to_MovieInfo = (input: TmdbSearchResult<TmdbTv>): MovieInfo[] => {
+  const list: MovieInfo[] = [];
+  input.results.forEach((item: TmdbTv) => {
+    list.push({
+      Id: item.id.toString(),
+      Title: item.name,
+      Poster: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+      Type: "movie",
+      Overview: item.overview,
+      Year: item.first_air_date,
+      Duration: "",
+      Genres: [],
+      Languages: [],
+    })
+  })
+  return list;
 }
 
 export const tmdbMovieInfo_to_MediaInfo = (input: TmdbMovieInfo): MediaInfo => {

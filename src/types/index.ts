@@ -177,7 +177,7 @@ export interface TmdbMovie {
 	popularity: number;
 	poster_path: string | null;
 	release_date: string; // Can be an empty string if unavailable
-		title: string;
+  title: string;
 	video: boolean;
 	vote_average: number;
 	vote_count: number;

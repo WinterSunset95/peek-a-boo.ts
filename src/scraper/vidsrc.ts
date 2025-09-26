@@ -28,7 +28,7 @@ const loadServers = (rawHtml: string): { servers: Servers[]; title: string } => 
 	const serversArr: Servers[] = [];
 	const title = $("title").text() ?? "";
 	const base = $("iframe").attr("src") ?? ""
-	BASEURL = new URL(base.startsWith("//") ? `https:${base}` : base).origin ?? BASEURL;
+	BASEURL = new URL(base.startsWith("//") ? `https:${base}` : base).origin ?? "https://cloudnestra.com";
 	console.log(BASEURL)
 	$(".serversList .server").each((index, element) => {
 		const server = $(element)
@@ -45,21 +45,29 @@ const loadServers = (rawHtml: string): { servers: Servers[]; title: string } => 
 }
 
 const getProrcp = async (rcpUrl: string): Promise<string | undefined> => {
-	console.log(rcpUrl)
-	const res = await fetch("http://localhost:8000/vidsrc", {
-		method: "POST",
-		body: JSON.stringify({ url: rcpUrl }),
-		headers: {
-			"content-type": "application/json"
-		}
-	})
-	const data = await res.json()
-	const html = data.result
-	const regex = /src:\s*'([^']*)'/
-	const match = html.match(regex)
-	console.log(match)
-	if (!match) return undefined
-	return match[1]
+	try {
+		const res = await fetch(rcpUrl);
+		console.log(rcpUrl);
+		console.log(await res.text());
+	} catch {
+		console.log(rcpUrl)
+		const res = await fetch("http://localhost:8000/vidsrc", {
+			method: "POST",
+			body: JSON.stringify({ url: rcpUrl }),
+			headers: {
+				"content-type": "application/json"
+			}
+		})
+		const data = await res.json()
+		const html = data.result
+		const regex = /src:\s*'([^']*)'/
+		const match = html.match(regex)
+		console.log(match)
+		if (!match) return undefined
+		return match[1]
+	} finally {
+		return undefined;
+	}
 }
 
 const getM3u8FromProrcp = async (prorcp: string): Promise<string | undefined> => {
@@ -118,8 +126,8 @@ const getM3u8FromProrcp = async (prorcp: string): Promise<string | undefined> =>
 
 export const vidsrcScrape = async (tmdbId: string, type: "movie" | "tv", season?: number, episode?: number): Promise<ApiRes[]> => {
 	const url = (type === "movie")
-		? `https://vidsrc.net/embed/${type}?tmdb=${tmdbId}`
-		: `https://vidsrc.net/embed/${type}?tmdb=${tmdbId}&season=${season}&episode=${episode}`
+		? `https://vidsrc.xyz/embed/${tmdbId}`
+		: `https://vidsrc.xyz/embed/${tmdbId}&season=${season}&episode=${episode}`
 	//const url = (type === "movie")
 	//	? `https://vidsrc.net/embed/${type}?tmdb=${tmdbId}`
 	//	: `https://vidsrc.to/embed/${type}?tmdb=${tmdbId}&season=${season}&episode=${episode}`
@@ -132,7 +140,7 @@ export const vidsrcScrape = async (tmdbId: string, type: "movie" | "tv", season?
 	// Load a list of servers and the title from the raw html
 	const { servers, title } = loadServers(embedRes)
 	console.log("Movie title: " + title)
-
+	
 	// Vidsrc has an iframe which embeds from /rcp/<server hash>
 	// Which in turn has another iframe which embeds from /prorcp/<some random hash>
 	// To get that /prorcp/<hash>, we will use puppeteer to open up the link in
