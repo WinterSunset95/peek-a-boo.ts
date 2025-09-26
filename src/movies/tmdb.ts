@@ -86,34 +86,21 @@ export class TMDB {
 		};
 	}
 
-	async searchTv(query: string): Promise<PeekABoo<MovieSearchResult[]>> {
-		const defaultResult: PeekABoo<MovieSearchResult[]> = {
+	async searchTv(query: string): Promise<PeekABoo<MovieInfo[]>> {
+		const defaultResult: PeekABoo<MovieInfo[]> = {
 			peek: false,
 			boo: []
 		}
 
 		console.log(this.tvSearch + query)
 		const response = await fetch(`${this.tvSearch}${query}`)
-		const data = await response.json();
-		const array: MovieSearchResult[] = [];
+		const data = await response.json() as TmdbSearchResult<TmdbTv>;
 
 		if (data == undefined) return defaultResult;
 
-		data.results.forEach((item: any) => {
-			const arrItem: MovieSearchResult = {
-				Id: item.id,
-				Title: item.original_name,
-				Poster: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-				Type: "tv"
-			}
-			array.push(arrItem)
-		})
-
-		console.log(array)
-
 		return {
 			peek: true,
-			boo: array
+			boo: tmdbTv_to_MovieInfo(data)
 		};
 	}
 
@@ -161,7 +148,7 @@ export class TMDB {
 		}
 	}
 
-	async getSimilarTvShows(id: string): Promise<PeekABoo<MovieSearchResult[]>> {
+	async getSimilarTvShows(id: string): Promise<PeekABoo<MovieInfo[]>> {
 		const res = await fetch(this.tvSimilar(id), {
 			method: "GET",
 			headers: {
@@ -179,11 +166,11 @@ export class TMDB {
 
 		return {
 			peek: true,
-			boo: tmdbTv_to_MovieSearchResult(data),
+			boo: tmdbTv_to_MovieInfo(data),
 		}
 	}
 
-	async getSimilarMovies(id: string): Promise<PeekABoo<MovieSearchResult[]>> {
+	async getSimilarMovies(id: string): Promise<PeekABoo<MovieInfo[]>> {
 		const res = await fetch(this.movieSimilar(id), {
 			method: "GET",
 			headers: {
@@ -201,7 +188,7 @@ export class TMDB {
 
 		return {
 			peek: true,
-			boo: tmdbMovie_to_MovieSearchResult(data),
+			boo: tmdbMovie_to_MovieInfo(data),
 		}
 	}
 
