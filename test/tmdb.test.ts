@@ -27,8 +27,19 @@ describe('TMDB Class', () => {
 			const firstMovie = result.boo[0];
 			expect(firstMovie).toHaveProperty('Id');
 			expect(firstMovie).toHaveProperty('Title');
+      expect(firstMovie.Type).toBe('movie')
 		});
+    it('should fetch trending tv', async () => {
+      const result = await tmdb.getTrendingTv();
+      expect(result.peek).toBe(true);
+      expect(result.boo.length).toBeGreaterThan(0);
 
+      const firstTv = result.boo[0];
+      expect(firstTv).toHaveProperty('Id');
+      expect(firstTv).toHaveProperty('Title');
+      expect(firstTv).toHaveProperty('Type');
+      expect(firstTv.Type).toBe('tv')
+    });
 		it('should search for a specific movie', async () => {
 			const result = await tmdb.searchMovie('Inception');
 
@@ -39,6 +50,18 @@ describe('TMDB Class', () => {
 			const firstMovie = result.boo[0];
 			expect(firstMovie).toHaveProperty('Id');
 			expect(firstMovie).toHaveProperty('Title');
+		});
+		it('should search for a specific show', async () => {
+			const result = await tmdb.searchTv('Reacher');
+
+			expect(result.peek).toBe(true);
+			expect(result.boo.length).toBeGreaterThan(0);
+			
+			// Verify the shape of the parsed data
+			const firstTv = result.boo[0];
+			expect(firstTv).toHaveProperty('Id');
+			expect(firstTv).toHaveProperty('Title');
+      expect(firstTv.Type).toBe('tv')
 		});
 
 		it('should get movie info for a valid ID', async () => {

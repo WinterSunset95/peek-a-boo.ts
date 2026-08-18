@@ -114,7 +114,7 @@ export class TMDB {
 			}
 		}
 		const data = await response.json() as TmdbMovieInfo;
-		if (data == undefined) {
+		if (!data || !data.id) {
 			return {
 				peek: false,
 				boo: `Failed to get Movie Info ${id}`
