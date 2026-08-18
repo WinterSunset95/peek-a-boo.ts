@@ -21,7 +21,6 @@
 
           shellHook = ''
             echo "🕵️ peek-a-boo.ts Dev Environment Loaded"
-            corepack enable pnpm
           '';
         };
       }

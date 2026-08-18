@@ -41,17 +41,17 @@ import {
 	FlixHq
 } from "./movies/flixhq"
 
-import {
-	FMovies
-} from "./movies/fmovie"
+// import {
+// 	FMovies
+// } from "./movies/fmovie"
 
-import {
-	Gogo
-} from "./anime/gogo"
+// import {
+// 	Gogo
+// } from "./anime/gogo"
 
-import {
-	Zoro
-} from "./anime/zoro"
+// import {
+// 	Zoro
+// } from "./anime/zoro"
 
 import {
 	AnimePahe
@@ -99,11 +99,11 @@ export {
 
 	FlixHq,
 
-	FMovies,
+	// FMovies,
 
-	Gogo,
+	// Gogo,
 
-	Zoro,
+	// Zoro,
 
 	AnimePahe,
 
