@@ -16,7 +16,8 @@ import {
 	ActiveAnimeRoom,
 	ChatMessage,
 	RoomMessage,
-	Release
+	Release,
+  IAnimeEpisode, IEpisodeServer, ISearch
 } from "./types"
 
 import {
@@ -110,5 +111,7 @@ export {
 	io,
 	checkIfRoomExists,
 	rooms,
+
+  IAnimeEpisode, IEpisodeServer, ISearch
 }
 

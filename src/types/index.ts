@@ -1,7 +1,11 @@
-import { IAnimeEpisode, IAnimeInfo, IAnimeResult, ISearch } from "@consumet/extensions";
+import { IAnimeEpisode, IAnimeInfo, IAnimeResult, ISearch, IEpisodeServer } from "@consumet/extensions";
 
 export const mediaTypes = [ "anime", "movie", "tv", "unknown" ] as const
 export type MediaTypes = typeof mediaTypes[number]
+
+export {
+  IAnimeEpisode, IEpisodeServer, ISearch
+}
 
 export interface MovieSearchResult {
 	Id: string;

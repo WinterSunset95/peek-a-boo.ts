@@ -38,6 +38,7 @@ export class TMDB {
 			boo: []
 		}
 
+    console.log(this.movieTrending)
 		const response = await fetch(this.movieTrending);
 		const data = await response.json() as TmdbSearchResult<TmdbMovie>;
 		const array: MovieInfo[] = []
@@ -225,33 +226,57 @@ export class TMDB {
 		try {
 			const servers: IEpisodeServer[] = [
 				{
-					name: "VidSrc Net",
-					url: `https://vidsrc.net/embed/movie?tmdb=${id}`
+					name: "VidSrc2 RU",
+					url: `https://vidsrc2.ru/embed/movie/${id}`
 				},
 				{
-					name: "VidSrc Icu",
-					url: `https://vidsrc.icu/embed/movie/${id}`
+					name: "VidSrc IR",
+					url: `https://vidsrc.ir/embed/movie/${id}`
 				},
 				{
 					name: "Super Embed",
 					url: `https://multiembed.mov/?video_id=${id}&tmdb=1`
 				},
-				{
-					name: "VidPro",
-					url: `https://vidsrc.pro/embed/movie/${id}`
-				},
-				{
-					name: "VidSrc In",
-					url: `https://vidsrc.in/embed/movie/${id}`
-				},
-				{
-					name: "VidSrc VIP",
-					url: `https://vidsrc.vip/embed/movie/${id}`
-				},
-				{
-					name: "VidSrc To",
-					url: `https://vidsrc.to/embed/movie/${id}`
-				}
+        {
+          name: "Super Embed (VIP)",
+          url: `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`
+        },
+        {
+          name: "2Embed (CC)",
+          url: `https://www.2embed.cc/embed/${id}`
+        },
+        {
+          name: "2Embed (Skin)",
+          url: `https://www.2embed.skin/embed/${id}`
+        },
+        {
+          name: "VidSrcMe RU",
+          url: `https://vidsrcme.su/embed/movie/${id}`
+        },
+        {
+          name: "VidSrcMe SU",
+          url: `https://vidsrcme.su/embed/movie/${id}`
+        },
+        {
+          name: "VidSrc-Me RU",
+          url: `https://vidsrc-me.ru/embed/movie/${id}`
+        },
+        {
+          name: "VidSrc-Me SU",
+          url: `https://vidsrc-me.su/embed/movie/${id}`
+        },
+        {
+          name: "VidSrc Embed RU",
+          url: `https://vidsrc-embed.ru/embed/movie/${id}`
+        },
+        {
+          name: "VidSrc Embed SU",
+          url: `https://vidsrc-embed.su/embed/movie/${id}`
+        },
+        {
+          name: "VSrc SU",
+          url: `https://vsrc.su/embed/movie/${id}`
+        },
 			]
 			return {
 				peek: true,
@@ -300,33 +325,57 @@ export class TMDB {
 	getTvEmbeds(id: string, season: number, episode: number): PeekABoo<IEpisodeServer[] | string> {
 		const serversList: IEpisodeServer[] = [
 			{
-				name: "VidSrc Net",
-				url: `https://vidsrc.net/embed/tv?tmdb=${id}&season=${season}&episode=${episode}`
+				name: "VidSrc2 RU",
+				url: `https://vidsrc2.ru/embed/tv?tmdb=${id}&season=${season}&episode=${episode}`
 			},
 			{
-				name: "VidSrc Icu",
-				url: `https://vidsrc.icu/embed/tv/${id}/${season}/${episode}`
+				name: "VidSrc IR",
+				url: `https://vidsrc.ir/embed/tv/${id}/${season}/${episode}`
 			},
 			{
 				name: "Super Embed",
 				url: `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${season}&e=${episode}`
 			},
 			{
-				name: "VidPro",
-				url: `https://vidsrc.pro/embed/tv/${id}/${season}/${episode}`
+				name: "Super Embed (VIP)",
+				url: `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1&s=${season}&e=${episode}`
 			},
 			{
-				name: "VidSrc In",
-				url: `https://vidsrc.in/embed/tv/${id}/${season}/${episode}`
+				name: "2Embed (CC)",
+				url: `https://www.2embed.cc/embedtv/${id}&s=${season}&e=${episode}`
 			},
 			{
-				name: "VidSrc VIP",
-				url: `https://vidsrc.vip/embed/tv/${id}/${season}/${episode}`
+				name: "2Embed (Skin)",
+				url: `https://www.2embed.skin/embedtv/${id}&s=${season}&e=${episode}`
 			},
 			{
-				name: "VidSrc To",
-				url: `https://vidsrc.to/embed/tv/${id}/${season}/${episode}`
-			}
+				name: "VidSrcMe RU",
+				url: `https://vidsrcme.su/embed/tv/${id}/${season}/${episode}`
+			},
+			{
+				name: "VidSrcMe SU",
+				url: `https://vidsrcme.su/embed/tv/${id}/${season}/${episode}`
+			},
+			{
+				name: "VidSrc-Me RU",
+				url: `https://vidsrc-me.ru/embed/tv/${id}/${season}/${episode}`
+			},
+			{
+				name: "VidSrc-Me SU",
+				url: `https://vidsrc-me.su/embed/tv/${id}/${season}/${episode}`
+			},
+			{
+				name: "VidSrc Embed RU",
+				url: `https://vidsrc-embed.ru/embed/tv/${id}/${season}/${episode}`
+			},
+			{
+				name: "VidSrc Embed SU",
+				url: `https://vidsrc-embed.su/embed/tv/${id}/${season}/${episode}`
+			},
+			{
+				name: "VSrc SU",
+				url: `https://vsrc.su/embed/tv/${id}/${season}/${episode}`
+			},
 		]
 		return {
 			peek: true,
