@@ -1,4 +1,4 @@
-import { MediaInfo, MovieInfo, MovieSearchResult, PeekABoo, TmdbMovie, TmdbMovieInfo, TmdbSearchResult, TmdbTv, TmdbTvInfo, TvSeason } from "../types";
+import { MediaInfo, MovieInfo, MovieSearchResult, PeekABoo, TmdbBackdrops, TmdbMovie, TmdbMovieInfo, TmdbSearchResult, TmdbSeasonDetails, TmdbTv, TmdbTvInfo, TvSeason } from "../types";
 import { tmdbMovie_to_MovieInfo, tmdbMovie_to_MovieSearchResult, tmdbMovieInfo_to_MediaInfo, tmdbTv_to_MovieInfo, tmdbTv_to_MovieSearchResult, tmdbTvInfo_to_MediaInfo } from "../utilities/typeconverter";
 import { vidsrcScrape }  from "../scraper"
 import { ISource, IVideo, IEpisodeServer } from "@consumet/extensions"
@@ -10,9 +10,11 @@ export class TMDB {
 	moviePopular: string;
 	movieSearch: string;
 	movieInfo: (id: string) => string;
+  backdrop: (type: string, id: string) => string;
 	tvTrending: string;
 	tvPopular: string;
 	tvSearch: string;
+  seasonDetails: (seriesId: string, seasonId: string) => string;
 	tvInfo: (id: string) => string;
 	tvSimilar: (id: string) => string;
 	movieSimilar: (id: string) => string;
@@ -24,12 +26,14 @@ export class TMDB {
 		this.moviePopular = `${this.appProxy}https://api.themoviedb.org/3/movie/popular?api_key=${this.tmdbApiKey}`
 		this.movieSearch = `${this.appProxy}https://api.themoviedb.org/3/search/movie?api_key=${this.tmdbApiKey}&query=`
 		this.movieInfo = (id: string): string => `${this.appProxy}https://api.themoviedb.org/3/movie/${id}?api_key=${this.tmdbApiKey}`;
+    this.backdrop = (type: string, id: string): string => `${this.appProxy}https://api.themoviedb.org/3/${type}/${id}/images?api_key=${this.tmdbApiKey}`;
 		this.tvTrending = `${this.appProxy}https://api.themoviedb.org/3/trending/tv/day?api_key=${this.tmdbApiKey}`
 		this.tvPopular = `${this.appProxy}https://api.themoviedb.org/3/tv/popular?api_key=${this.tmdbApiKey}`
 		this.tvSearch = `${this.appProxy}https://api.themoviedb.org/3/search/tv?api_key=${this.tmdbApiKey}&query=`
 		this.tvInfo = (id: string): string => `${this.appProxy}https://api.themoviedb.org/3/tv/${id}?api_key=${this.tmdbApiKey}`;
 		this.tvSimilar = (id: string): string => `${this.appProxy}https://api.themoviedb.org/3/tv/${id}/similar?api_key=${this.tmdbApiKey}`
 		this.movieSimilar = (id: string): string => `${this.appProxy}https://api.themoviedb.org/3/movie/${id}/similar?api_key=${this.tmdbApiKey}`
+    this.seasonDetails = (seriesId: string, seasonId: string) => `${this.appProxy}https://api.themoviedb.org/3/tv/${seriesId}/season/${seasonId}?api_key=${this.tmdbApiKey}`
 	}
 
 	async getTrendingMovies(): Promise<PeekABoo<MovieInfo[]>> {
@@ -104,6 +108,52 @@ export class TMDB {
 			boo: tmdbTv_to_MovieInfo(data)
 		};
 	}
+
+  async getBackdrops(type: string, id: string): Promise<PeekABoo<TmdbBackdrops | string>> {
+    const response = await fetch(`${this.backdrop(type, id)}`);
+    if (response.status == 400) {
+			return {
+				peek: false,
+				boo: `Failed to get Movie Info ${id}`
+			}
+    }
+
+		const data = await response.json() as TmdbBackdrops;
+		if (!data || !data.backdrops || data.backdrops.length == 0) {
+			return {
+				peek: false,
+				boo: `Failed to get Movie Info ${id}`
+			}
+		}
+
+		return {
+			peek: true,
+			boo: data
+		}
+  }
+
+  async getSeasonDetails(seriesId: string, seasonId: string): Promise<PeekABoo<TmdbSeasonDetails | string>> {
+    const response = await fetch(`${this.seasonDetails(seriesId, seasonId)}`)
+    if (response.status == 400) {
+			return {
+				peek: false,
+				boo: `Failed to get Season Info ${seasonId}`
+			}
+    }
+
+		const data = await response.json() as TmdbSeasonDetails;
+    if (!data || data.episodes.length == 0) {
+			return {
+				peek: false,
+				boo: `Failed to get season Info ${seasonId}`
+			}
+    }
+
+    return {
+      peek: true,
+      boo: data
+    }
+  }
 
 	async getMovieInfo(id: string): Promise<PeekABoo<MediaInfo | string>> {
 		const response = await fetch(`${this.movieInfo(id)}`)

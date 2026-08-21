@@ -17,7 +17,14 @@ import {
 	ChatMessage,
 	RoomMessage,
 	Release,
-  IAnimeEpisode, IEpisodeServer, ISearch
+  IAnimeEpisode, IEpisodeServer, ISearch,
+  TmdbBackdrops,
+  TmdbBackdrop,
+  TmdbEpisodeCrew,
+  TmdbEpisodeGuestStar,
+  TmdbEpisode,
+  TmdbNetwork,
+  TmdbSeasonDetails,
 } from "./types"
 
 import {
@@ -78,6 +85,8 @@ export {
 	MovieInfo,
 	TvSeason,
 	MediaInfo,
+  TmdbBackdrops,
+  TmdbBackdrop,
 	User,
 	RoomCreate,
 	OpenRoom,
@@ -112,6 +121,11 @@ export {
 	checkIfRoomExists,
 	rooms,
 
-  IAnimeEpisode, IEpisodeServer, ISearch
+  IAnimeEpisode, IEpisodeServer, ISearch,
+  TmdbEpisodeCrew,
+  TmdbEpisodeGuestStar,
+  TmdbEpisode,
+  TmdbNetwork,
+  TmdbSeasonDetails,
 }
 

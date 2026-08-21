@@ -212,6 +212,86 @@ export interface TvSeason {
 	SeasonNumber: string
 }
 
+export interface TmdbBackdrop {
+  aspect_ratio: number,
+  height: number,
+  iso_639_1: string | null,
+  file_path: string,
+  vote_average: number,
+  vote_count: number,
+  width: number
+}
+
+export interface TmdbBackdrops {
+  backdrops: TmdbBackdrop[],
+}
+
+export interface TmdbEpisodeGuestStar {
+  character: string,
+  credit_id: string,
+  order: number,
+  adult: boolean,
+  gender: number,
+  id: number,
+  known_for_department: string,
+  name: string,
+  original_name: string,
+  popularity: number,
+  profile_path: string
+}
+
+export interface TmdbEpisodeCrew {
+  department: string,
+  job: string,
+  credit_id: string,
+  adult: boolean,
+  gender: number,
+  id: number,
+  known_for_department: string,
+  name: string,
+  original_name: string,
+  popularity: number,
+  profile_path: string
+}
+
+export interface TmdbEpisode {
+  air_date: string,
+  episode_number: number,
+  episode_type: string,
+  id: number,
+  name: string,
+  overview: string,
+  production_code: string,
+  runtime: number,
+  season_number: number,
+  show_id: number,
+  still_path: string,
+  vote_average: number,
+  vote_count: number,
+  crew: TmdbEpisodeCrew[],
+  guest_stars: TmdbEpisodeGuestStar[],
+}
+
+export interface TmdbNetwork {
+  id: number,
+  logo_path: string,
+  name: string,
+  origin_country: string
+}
+
+export interface TmdbSeasonDetails {
+  _id: string,
+  air_date: string,
+  episodes: TmdbEpisode[],
+  name: string,
+  networks: TmdbNetwork[],
+  overview: string,
+  id: number,
+  poster_path: string,
+  season_number: number,
+  vote_average: number
+}
+
 export interface MediaInfo extends MovieInfo {
 	AnimeEpisodes?: IAnimeEpisode[],
 	ConsumetAnimeInfo?: ConsumetAnimeInfo,
